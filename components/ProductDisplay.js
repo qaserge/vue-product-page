@@ -22,9 +22,9 @@ app.component("product-display", {
               <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
               <p v-else>Out of Stock</p>
               <p>Shipping: {{ shipping }}</p>
-              <ul>
-                <li v-for="detail in details">{{ detail }}</li>
-              </ul>
+
+              <product-details :details="details"></product-details>
+              
               <div
                 v-for="(variant, index) in variants"
                 :key="variant.id"
