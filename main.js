@@ -2,15 +2,27 @@ const app = Vue.createApp({
   data() {
     return {
       cart: 0,
+      brand: "Puma",
       product: "Socks",
-      image: "./assets/images/socks_green.jpg",
+      selectedVariant: 0,
       description: "A pair of warm, comfortable socks",
       inventory: 12,
-      onSale: false,
       details: ["50% cotton", "30% wool", "20% polyester"],
       variants: [
-        { id: 2234, color: "green", image: "./assets/images/socks_green.jpg" },
-        { id: 2235, color: "blue", image: "./assets/images/socks_blue.jpg" },
+        {
+          id: 2234,
+          color: "green",
+          image: "./assets/images/socks_green.jpg",
+          quantity: 50,
+          onSale: false,
+        },
+        {
+          id: 2235,
+          color: "blue",
+          image: "./assets/images/socks_blue.jpg",
+          quantity: 0,
+          onSale: true,
+        },
       ],
     };
   },
@@ -21,22 +33,22 @@ const app = Vue.createApp({
     removeFromCart() {
       this.cart -= 1;
     },
-    updateImage(variantImage) {
-      this.image = variantImage;
+    updateVariant(index) {
+      this.selectedVariant = index;
     },
-    increaseInventory() {
-      this.inventory += 1;
+  },
+  computed: {
+    title() {
+      let saleText = this.variants[this.selectedVariant].onSale
+        ? " is on Sale!"
+        : "";
+      return this.brand + " " + this.product + saleText;
     },
-    decreaseInventory() {
-      this.inventory -= 1;
+    image() {
+      return this.variants[this.selectedVariant].image;
     },
-    addToCartAndUpdateInventory() {
-      this.addToCart();
-      this.decreaseInventory();
-    },
-    removeFromCartAndUpdateInventory() {
-      this.removeFromCart();
-      this.increaseInventory();
+    inStock() {
+      return this.variants[this.selectedVariant].quantity;
     },
   },
 });
