@@ -17,7 +17,10 @@
       <div class="product-display">
         <div class="product-container">
           <div class="product-image">
-            <img :src="image" />
+            <img
+              :class="{ 'out-of-stock-img': inventory === 0 }"
+              v-bind:src="image"
+            />
           </div>
           <div class="product-info">
             <h1>{{ product }}</h1>
@@ -32,11 +35,22 @@
               v-for="variant in variants"
               :key="variant.id"
               @mouseover="updateImage(variant.image)"
+              class="color-circle"
+              :style="{ backgroundColor: variant.color }"
+            ></div>
+            <button
+              class="button"
+              v-on:click="addToCartAndUpdateInventory"
+              :class="{ disabledButton: inventory === 0}"
+              :disabled="inventory === 0"
             >
-              {{ variant.color }}
-            </div>
-            <button class="button" v-on:click="addToCart">Add to Cart</button>
-            <button v-if="cart > 0" class="button" @click="removeFromCart">
+              Add to Cart
+            </button>
+            <button
+              v-if="cart > 0"
+              class="button"
+              @click="removeFromCartAndUpdateInventory"
+            >
               Remove Item
             </button>
           </div>

@@ -5,7 +5,7 @@ const app = Vue.createApp({
       product: "Socks",
       image: "./assets/images/socks_green.jpg",
       description: "A pair of warm, comfortable socks",
-      inventory: 55,
+      inventory: 12,
       onSale: false,
       details: ["50% cotton", "30% wool", "20% polyester"],
       variants: [
@@ -23,6 +23,20 @@ const app = Vue.createApp({
     },
     updateImage(variantImage) {
       this.image = variantImage;
+    },
+    increaseInventory() {
+      this.inventory += 1;
+    },
+    decreaseInventory() {
+      this.inventory -= 1;
+    },
+    addToCartAndUpdateInventory() {
+      this.addToCart();
+      this.decreaseInventory();
+    },
+    removeFromCartAndUpdateInventory() {
+      this.removeFromCart();
+      this.increaseInventory();
     },
   },
 });
