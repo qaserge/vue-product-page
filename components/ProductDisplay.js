@@ -4,6 +4,7 @@ app.component("product-display", {
       type: Boolean,
       required: true,
     },
+    cartLength: Number,
   },
   template:
     /*html*/
@@ -39,8 +40,8 @@ app.component("product-display", {
                 :disabled="!inStock"
               >
                 Add to Cart
-              </button>
-              <button v-if="cart > 0" class="button" @click="removeFromCart">
+              </button>              
+              <button v-if="cartLength > 0" class="button" @click="removeFromCart">
                 Remove Item
               </button>
             </div>
@@ -75,10 +76,10 @@ app.component("product-display", {
   },
   methods: {
     addToCart() {
-      this.cart += 1;
+      this.$emit("add-to-cart", this.variants[this.selectedVariant].id);
     },
     removeFromCart() {
-      this.cart -= 1;
+      this.$emit("remove-from-cart", this.variants[this.selectedVariant].id);
     },
     updateVariant(index) {
       this.selectedVariant = index;
