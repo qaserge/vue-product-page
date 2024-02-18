@@ -1,7 +1,13 @@
 app.component("product-display", {
-    template:
-      /*html*/
-      `
+  props: {
+    premium: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  template:
+    /*html*/
+    `
       <div class="product-display">
           <div class="product-container">
             <div class="product-image">
@@ -15,6 +21,7 @@ app.component("product-display", {
               <p v-if="inStock">In Stock</p>
               <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
               <p v-else>Out of Stock</p>
+              <p>Shipping: {{ shipping }}</p>
               <ul>
                 <li v-for="detail in details">{{ detail }}</li>
               </ul>
@@ -40,56 +47,61 @@ app.component("product-display", {
           </div>
         </div>
       `,
-    data() {
-      return {
-        brand: "Puma",
-        product: "Socks",
-        selectedVariant: 0,
-        description: "A pair of warm, comfortable socks",
-        inventory: 12,
-        details: ["50% cotton", "30% wool", "20% polyester"],
-        variants: [
-          {
-            id: 2234,
-            color: "green",
-            image: "./assets/images/socks_green.jpg",
-            quantity: 50,
-            onSale: false,
-          },
-          {
-            id: 2235,
-            color: "blue",
-            image: "./assets/images/socks_blue.jpg",
-            quantity: 0,
-            onSale: true,
-          },
-        ],
-      };
+  data() {
+    return {
+      brand: "Puma",
+      product: "Socks",
+      selectedVariant: 0,
+      description: "A pair of warm, comfortable socks",
+      inventory: 12,
+      details: ["50% cotton", "30% wool", "20% polyester"],
+      variants: [
+        {
+          id: 2234,
+          color: "green",
+          image: "./assets/images/socks_green.jpg",
+          quantity: 50,
+          onSale: false,
+        },
+        {
+          id: 2235,
+          color: "blue",
+          image: "./assets/images/socks_blue.jpg",
+          quantity: 0,
+          onSale: true,
+        },
+      ],
+    };
+  },
+  methods: {
+    addToCart() {
+      this.cart += 1;
     },
-    methods: {
-      addToCart() {
-        this.cart += 1;
-      },
-      removeFromCart() {
-        this.cart -= 1;
-      },
-      updateVariant(index) {
-        this.selectedVariant = index;
-      },
+    removeFromCart() {
+      this.cart -= 1;
     },
-    computed: {
-      title() {
-        let saleText = this.variants[this.selectedVariant].onSale
-          ? " is on Sale!"
-          : "";
-        return this.brand + " " + this.product + saleText;
-      },
-      image() {
-        return this.variants[this.selectedVariant].image;
-      },
-      inStock() {
-        return this.variants[this.selectedVariant].quantity;
-      },
+    updateVariant(index) {
+      this.selectedVariant = index;
     },
-  });
-  
+  },
+  computed: {
+    title() {
+      let saleText = this.variants[this.selectedVariant].onSale
+        ? " is on Sale!"
+        : "";
+      return this.brand + " " + this.product + saleText;
+    },
+    image() {
+      return this.variants[this.selectedVariant].image;
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].quantity;
+    },
+    shipping() {
+      if (this.premium) {
+        return "Free";
+      }
+      return 2.99;
+    },
+  },
+});
