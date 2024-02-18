@@ -15,7 +15,13 @@
       <div class="product-display">
         <div class="product-container">
           <div class="product-image">
-            <!-- image goes here -->
+            <!-- <img v-bind:src="image" /> -->
+            <img :src="image" />
+            <!-- <img :alt="description" />
+            <img :href="url" />
+            <img :class="isActive" />
+            <img :style="isActive" />
+            <img :disabled="isDisabled" /> -->
           </div>
           <div class="product-info">
             <h1>{{ product }}</h1>
